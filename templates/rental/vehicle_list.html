@@ -1,0 +1,48 @@
+{% extends 'rental/base.html' %}
+
+{% block title %}Vehicles | VRMS{% endblock %}
+
+{% block content %}
+<section class="page-section">
+    <div class="page-header">
+        <div>
+            <p class="eyebrow">VEHICLE MANAGEMENT</p>
+            <h1>Vehicles</h1>
+            <p>View the vehicles available in your rental fleet.</p>
+        </div>
+    </div>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Vehicle</th>
+                    <th>Registration</th>
+                    <th>Category</th>
+                    <th>Daily Rate</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for vehicle in vehicles %}
+                <tr>
+                    <td>{{ vehicle }}</td>
+                    <td>{{ vehicle.registration_number|default:"—" }}</td>
+                    <td>{{ vehicle.category|default:"—" }}</td>
+                    <td>₹{{ vehicle.daily_rate|default:"—" }}</td>
+                    <td>
+                        {{ vehicle.status|default:"Available" }}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5">
+                        No vehicles have been added yet.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

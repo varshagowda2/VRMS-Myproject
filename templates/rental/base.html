@@ -1,0 +1,127 @@
+<!DOCTYPE html><html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}VRMS | Vehicle Rental Management{% endblock %}</title>
+    <style>
+        * { box-sizing: border-box; }    body {
+        margin: 0;
+        font-family: "Segoe UI", Arial, sans-serif;
+        background: #f4f6f9;
+        color: #202938;
+    }
+
+    .navbar {
+        background: #172b4d;
+        color: white;
+        padding: 18px 6%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 16px;
+    }
+
+    .brand {
+        font-size: 21px;
+        font-weight: 700;
+        letter-spacing: .3px;
+    }
+
+    .nav-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 22px;
+    }
+
+    .nav-links a {
+        color: #e5ebf5;
+        text-decoration: none;
+        font-size: 14px;
+    }
+
+    .nav-links a:hover { color: #ffffff; }
+
+    .container {
+        width: 88%;
+        max-width: 1200px;
+        margin: 38px auto;
+        min-height: 60vh;
+    }
+
+    .hero {
+        background: white;
+        padding: 58px 48px;
+        border-radius: 12px;
+        border: 1px solid #e1e6ed;
+        box-shadow: 0 5px 20px rgba(25, 42, 70, .05);
+    }
+
+    .eyebrow {
+        color: #3867b0;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+    }
+
+    h1 { font-size: 38px; margin: 16px 0; }
+    p { line-height: 1.7; }
+
+    .btn {
+        display: inline-block;
+        background: #2457a7;
+        color: white;
+        text-decoration: none;
+        padding: 12px 20px;
+        border-radius: 6px;
+        margin-top: 15px;
+    }
+
+    .btn:hover { background: #193f7d; }
+
+    .footer {
+        text-align: center;
+        padding: 24px;
+        color: #687386;
+        font-size: 13px;
+    }
+
+    @media (max-width: 600px) {
+        .container { width: 92%; margin: 22px auto; }
+        .hero { padding: 32px 22px; }
+        h1 { font-size: 29px; }
+        .navbar { padding: 18px 4%; }
+        .nav-links { gap: 14px; }
+    }
+</style>
+
+</head>
+<body>
+    <header class="navbar">
+        <div class="brand">VRMS</div>
+        <nav class="nav-links">
+            <a href="{% url 'home' %}">Home</a>
+            <a href="/admin/">Vehicles</a>
+            <a href="/admin/">Customers</a>
+            <a href="/admin/">Reservations</a> 
+            <a href="/admin/">Admin</a>
+        </nav>
+    </header><main class="container">
+    {% block content %}{% endblock %}
+</main>
+
+<footer class="footer">
+    Vehicle Rental Management System
+    <div class="text-center py-3">
+    <a href="{% url 'privacy_policy' %}" class="text-decoration-none me-3">
+        Privacy Policy
+    </a>
+
+    <a href="{% url 'terms' %}" class="text-decoration-none">
+        Terms and Conditions
+    </a>
+</div>
+</footer>
+
+</body>
+</html>

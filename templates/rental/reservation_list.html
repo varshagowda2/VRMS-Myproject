@@ -1,0 +1,48 @@
+{% extends "rental/base.html" %}
+
+{% block content %}
+<section class="container py-5">
+    <p class="text-uppercase text-primary fw-bold">
+        Reservation Management
+    </p>
+
+    <h1 class="mb-3">Reservations</h1>
+    <p class="text-muted mb-4">
+        View and manage vehicle rental reservations.
+    </p>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Reservation ID</th>
+                    <th>Customer</th>
+                    <th>Vehicle</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for reservation in reservations %}
+                <tr>
+                    <td>{{ reservation.id }}</td>
+                    <td>{{ reservation.customer }}</td>
+                    <td>{{ reservation.vehicle }}</td>
+                    <td>{{ reservation.start_date|default:"—" }}</td>
+                    <td>{{ reservation.end_date|default:"—" }}</td>
+                    <td>{{ reservation.status|default:"Pending" }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="text-center py-4">
+                        No reservations found.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

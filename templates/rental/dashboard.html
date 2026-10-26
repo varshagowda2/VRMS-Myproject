@@ -1,0 +1,225 @@
+{% extends 'rental/base.html' %}
+
+{% block title %}VRMS | Dashboard{% endblock %}
+
+{% block content %}
+
+<style>
+    .page-heading {
+        margin-bottom: 24px;
+    }
+
+    .page-heading h1 {
+        font-size: 30px;
+        margin: 0 0 8px;
+    }
+
+    .muted {
+        color: #687386;
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 18px;
+        margin-bottom: 28px;
+    }
+
+    .stat-card,
+    .section-card {
+        background: #ffffff;
+        border: 1px solid #e1e6ed;
+        border-radius: 10px;
+        padding: 22px;
+        margin-bottom: 20px;
+    }
+
+    .stat-label {
+        color: #687386;
+        font-size: 14px;
+    }
+
+    .stat-value {
+        font-size: 28px;
+        font-weight: 700;
+        margin: 12px 0 6px;
+        overflow-wrap: anywhere;
+    }
+
+    .section-card h2 {
+        font-size: 19px;
+        margin: 0 0 18px;
+    }
+
+    .table-wrap {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    .dashboard-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+    }
+
+    .dashboard-table th,
+    .dashboard-table td {
+        text-align: left;
+        padding: 12px;
+        border-bottom: 1px solid #e9edf2;
+    }
+
+    .dashboard-table th {
+        color: #687386;
+        background: #f8fafc;
+    }
+
+    .status {
+        display: inline-block;
+        background: #edf3fc;
+        color: #2457a7;
+        padding: 5px 9px;
+        border-radius: 5px;
+    }
+
+    .quick-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .quick-links a {
+        color: #2457a7;
+        text-decoration: none;
+        padding: 10px 14px;
+        border: 1px solid #d9e2f0;
+        border-radius: 6px;
+    }
+
+    .quick-links a:hover {
+        background: #edf3fc;
+    }
+
+    @media (max-width: 900px) {
+        .stats-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+
+    @media (max-width: 480px) {
+        .stats-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<div class="page-heading">
+    <h1>Dashboard</h1>
+    <p class="muted">
+        Overview of your vehicle rental operations.
+    </p>
+</div>
+
+<div class="stats-grid">
+
+    <div class="stat-card">
+        <div class="stat-label">Total Vehicles</div>
+        <div class="stat-value">{{ total_vehicles|default:0 }}</div>
+        <div class="muted">
+            {{ available_vehicles|default:0 }} available
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-label">Total Customers</div>
+        <div class="stat-value">{{ total_customers|default:0 }}</div>
+        <div class="muted">Registered customers</div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-label">Total Reservations</div>
+        <div class="stat-value">{{ total_reservations|default:0 }}</div>
+        <div class="muted">
+            {{ active_reservations|default:0 }} active
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-label">Payments Received</div>
+        <div class="stat-value">
+            ₹{{ total_payments|default:0|floatformat:2 }}
+        </div>
+        <div class="muted">Recorded payment total</div>
+    </div>
+
+</div>
+
+<div class="section-card">
+    <h2>Recent Reservations</h2>
+
+    <div class="table-wrap">
+        <table class="dashboard-table">
+            <thead>
+                <tr>
+                    <th>Booking ID</th>
+                    <th>Customer</th>
+                    <th>Vehicle</th>
+                    <th>Pickup Date</th>
+                    <th>Return Date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for reservation in recent_reservations %}
+                <tr>
+                    <td>#{{ reservation.pk }}</td>
+                    <td>{{ reservation.customer.full_name }}</td>
+                    <td>{{ reservation.vehicle }}</td>
+                    <td>{{ reservation.pickup_date|date:"d M Y" }}</td>
+                    <td>{{ reservation.return_date|date:"d M Y" }}</td>
+                    <td>
+                        <span class="status">
+                            {{ reservation.get_status_display }}
+                        </span>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6">
+                        No reservations have been created yet.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="section-card">
+    <h2>Finance Overview</h2>
+
+    <p>
+        Total invoices:
+        <strong>{{ total_invoices|default:0 }}</strong>
+    </p>
+
+    <p>
+        Unpaid, partially paid, or overdue invoices:
+        <strong>{{ unpaid_invoices|default:0 }}</strong>
+    </p>
+</div>
+
+<div class="section-card">
+    <h2>Management Shortcuts</h2>
+
+    <div class="quick-links">
+        <a href="/admin/rental/vehicle/">Manage Vehicles</a>
+        <a href="/admin/rental/customer/">Manage Customers</a>
+        <a href="/admin/rental/reservation/">Manage Reservations</a>
+        <a href="/admin/rental/invoice/">Manage Invoices</a>
+        <a href="/admin/rental/payment/">Manage Payments</a>
+    </div>
+</div>
+
+{% endblock %}

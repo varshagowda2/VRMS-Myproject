@@ -1,0 +1,13 @@
+{% extends 'rental/base.html' %}
+
+{% block title %}VRMS | Home{% endblock %}
+
+{% block content %}
+
+<section class="hero">
+    <p class="eyebrow">VEHICLE RENTAL MANAGEMENT SYSTEM</p>
+    <h1>Every journey starts here.</h1>
+    <p>Manage vehicles, customers and reservations from one convenient workspace.</p>
+    <a href="{% url 'dashboard' %}" class="btn">Open Dashboard</a>
+</section>
+{% endblock %}
